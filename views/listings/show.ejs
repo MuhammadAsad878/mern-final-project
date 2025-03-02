@@ -1,0 +1,143 @@
+<% layout('layouts/boilerplate.ejs') -%>
+
+<body>
+  <span id="previous-btn" title="Previous Page"
+    ><i class="fa-solid fa-circle-left"></i
+  ></span>
+
+  <div class="row col-8 offset-2">
+    <h3><%= listing.title %></h3>
+    <div class="card mb-3">
+      <img
+        src="<%= listing.image %>"
+        class="card-img-top show-card-img"
+        alt="..."
+      />
+      <div class="card-body">
+        <h5 class="card-title"><br /></h5>
+        <p class="card-text"><%= listing.description %></p>
+        <p class="card-text">
+          <i class="fa-solid fa-tag"></i> Rs <%=
+          Number(listing.price).toLocaleString("en-IN")%> /night<br />
+          <span title="location"
+            ><i class="fa-solid fa-location-dot"></i> <%= listing.location %>
+          </span>
+          <br />
+          <span title="country"
+            ><i class="fa-solid fa-globe"></i> <%= listing.country %></span
+          >
+        </p>
+      </div>
+    </div>
+    <div class="row col-6">
+      <div class="col-6 col-sm-12">
+        <a
+          href="/listings/<%= listing._id %>/edit"
+          class="btn btn-danger col-12"
+          >Edit this Listing</a
+        >
+      </div>
+      <br /><br />
+      <div class="col-6 col-sm-12">
+        <form
+          class="col-12"
+          method="POST"
+          action="/listings/<%=listing._id%>?_method=DELETE"
+        >
+          <button class="btn btn-secondary">Delete this listing</button>
+        </form>
+      </div>
+    </div>
+  </div>
+<br><br><br>
+<!-- Reviews Section -->
+ <div class="row  fluid p-0 m-0"  id="reviews">
+  <h5>Customer Reviews</h5>
+  <p>Total Reviews ( <%= listing.reviews.length %> )</p>
+    <div class="row col-8 offset-2 px-1 py-3">
+    <div class="col-6  ps-4">
+      <!-- Reviews list -->
+      <div class="row overflow-auto p-3 border" style=" scrollbar-width: none;max-height: 300px;">
+      <% if(listing.reviews.length){ %> <% for (review of listing.reviews){%>
+      <div class="card border ps-4 py-2 ">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-8">
+              <div class="card-title">
+                <span><b>Unknown User </b></span> &nbsp;&nbsp;&nbsp;&nbsp;
+                <span><%= review.rating %>⭐ </span>
+              </div>
+              <div class="card-text"><%= review.comment %></div>
+            </div>
+            <div class="col-4 d-flex justify-content-center align-items-center">
+              <form
+                action="/listings/<%= listing.id %>/review/<%= review._id %>?_method=DELETE"
+                method="post"
+              >
+                <button class="btn btn-outline-secondary">Delete</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% } } else { %>
+      <h4
+        class="d-flex justify-content-center align-items-center text-secondary p-5"
+      >
+        Reviews are Empty!
+      </h4>
+      <% } %>
+    </div>
+    </div>
+    <!-- Reviews Form -->
+    <div class="col-6">
+      <h3>Write a review</h3>
+      <form
+        action="/listings/<%= listing.id %>/reviews"
+        method="post"
+        novalidate
+        class="needs-validation"
+      >
+        <div class="mb-3 mt-3">
+          <label for="rating">Rating</label>
+          <input
+            type="range"
+            name="review[rating]"
+            id="rating"
+            min="1"
+            max="5"
+            step="1"
+          />
+        </div>
+        <div class="mb-3 mt-3">
+          <label for="comment" class="form-label">Comments</label>
+          <textarea
+            name="review[comment]"
+            id="comment"
+            cols="30"
+            rows="5"
+            class="form-control"
+            required
+          ></textarea>
+          <div class="invalid-feedback">Please write comment to submit</div>
+        </div>
+        <div class="text-end">
+        <button class="btn btn-outline-dark ">Submit</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+</body>
+
+<!-- Check below for toLocaleString() -->
+
+<!-- toLocaleString() converts price to string with a format "en-IN" indian number format 1,600,000
+       It provides localized formatting for better readability.
+       let price = 1000;
+
+console.log(price.toLocaleString("en-US", { style: "currency", currency: "USD" })); // "$1,000.00"
+console.log(price.toLocaleString("de-DE", { style: "currency", currency: "EUR" })); // "1.000,00 €"
+console.log(price.toLocaleString("ja-JP", { style: "currency", currency: "JPY" })); // "¥1,000"
+ -->
