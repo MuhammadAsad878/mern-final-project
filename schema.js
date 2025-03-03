@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-const listingSchema = Joi.object({
+const listingSchemaJoi = Joi.object({
   listing: Joi.object({
     title: Joi.string().required().messages({
       "string.empty": "Title cannot be empty",
@@ -27,7 +27,7 @@ const listingSchema = Joi.object({
   }).required().messages({"string.listing" : "All fields are required"}) // Ensures `listing` itself is not missing
 });
 
-const reviewSchema = Joi.object({
+const reviewSchemaJoi = Joi.object({
   review: Joi.object({
     rating: Joi.number().required().min(1).max(5).messages({
       "number.empty": "Rating is necessary",
@@ -38,4 +38,4 @@ const reviewSchema = Joi.object({
     }),
   }).required(),
 })
-export { listingSchema, reviewSchema };
+export { listingSchemaJoi, reviewSchemaJoi };
