@@ -1,15 +1,15 @@
 // MODULES || Packages || Libraries 
 import express from 'express';                    // Express framework
 import connectToDB from './db/connectDb.js';      // /db/connectDb.js for DB Connectivity
-import path from 'path';                         // Built in module used for working with paths
-import methodOverride from 'method-override';   // to make PUT,DELETE Requests possible (3rd party)
+import path from 'path';                          // Built in module used for working with paths
+import methodOverride from 'method-override';     // to make PUT,DELETE Requests possible (3rd party)
 import listingRoutes from './routes/listingRoutes.js';
-import { fileURLToPath } from 'url';        // to convert fileURL's to Paths (Built-in)
-import ejsMate from 'ejs-mate';      // enhance ejs templating funcionality using <%- body %> ( 3rd party)
-import {ExpressError} from './ExpressError.js'; // Custome err class & wrapAsync
+import { fileURLToPath } from 'url';                  // to convert fileURL's to Paths (Built-in)
+import ejsMate from 'ejs-mate';                        // enhance ejs templating funcionality using <%- body %> ( 3rd party)
+import {ExpressError} from './ExpressError.js';       // Custome err class & wrapAsync
 import reviewRoutes from './routes/reviewRoutes.js';
-import logger from "./logger.js"; // Import custom logger
-import morgan from "morgan"; // Import Morgan for request logging
+import logger from "./logger.js";                    // Import custom logger
+import morgan from "morgan";                         // Import Morgan for request logging
 
 
 const app = express();                        // Making express app
@@ -43,9 +43,8 @@ app.use(
 app.use('/listings', listingRoutes);
 app.use('/listings/:id/reviews', reviewRoutes);
 
-// 404 Page Not found Error  // This middleware check if request not matches any upper path then error page not found
+// 404 Page Not found Error  // This middleware check if req doesn't match route then give 404 Page not found error!
 app.use('*', async (req,res,next)=>{
-  console.log("Empty route found *******************");
   next(new ExpressError(404, "Oops Page not found!"));
 }); 
  
@@ -54,13 +53,10 @@ app.use((err,req,res,next)=>{
   console.log("-------ERROR-------");     // this will handle our errors
   console.log(err);
   let { status = 500, message = "Some Error Occured!" } = err;
-  // res.status(status).send(message);   // send status which received in error and message
   res.render('listings/error.ejs', {err});
 });
 
-// We can also set default status & message so it not cause any error if status or message is undefined for example 
-// let { status=500 , message= "Some Error"} = err; IF status or message not passed then status= 500 & message must be 
-// message = "Some Error";
+
 
 
 
