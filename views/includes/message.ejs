@@ -1,0 +1,11 @@
+<% if(successMsg.length){ %>
+<div class="alert alert-success col-6 offset-3 p-3 mt-3" role="alert">
+ <%= successMsg %>
+</div>
+<% } %>
+
+<% if(errorMsg.length){ %>
+  <div class="alert alert-danger col-6 offset-3 p-3 mt-3" role="alert">
+   <%= errorMsg %>
+  </div>
+  <% } %>

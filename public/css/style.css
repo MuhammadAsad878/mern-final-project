@@ -115,3 +115,8 @@ color: rgba(255, 0, 0, 0.282);
 .show-btns-row button{
   font-size: 0.25rem !important;
 }
+/* scroll bar color */
+::-webkit-scrollbar-thumb {
+  background: #3498db; /* Blue */
+  border-radius: 5px;
+}

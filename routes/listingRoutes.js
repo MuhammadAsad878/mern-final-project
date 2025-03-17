@@ -2,7 +2,7 @@ import express from "express";
 import { ExpressError, wrapAsync } from "../ExpressError.js";
 import { listingSchemaJoi } from "../schema.js";
 import { Listing } from "../models/listing.js";
-
+import flash from 'connect-flash';
 const router = express.Router();
 //  Index Route to show all listings
 router.get(
@@ -31,7 +31,7 @@ router.post(
       const { listing } = req.body;
       const newListing = new Listing(listing);
       await newListing.save();
-
+      req.flash("success","Listing added successfully");
       res.redirect("/listings");
     } catch (error) {
       console.log(error.details);
