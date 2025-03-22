@@ -1,7 +1,7 @@
 import express from "express";
 import {  wrapAsync } from "../utils/ExpressError.js";
 import { validateReview, IsLoggedIn, IsAuthor } from "../utils/middlewares.js";
-import { CreateReview, DeleteReview } from "../controllers/reviewController.js";
+import { CreateReview, DeleteReview } from "../controllers/reviewsController.js";
 
 
 const router = express.Router( { mergeParams:true } );

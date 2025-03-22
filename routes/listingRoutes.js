@@ -1,7 +1,7 @@
 import express from "express";
 import { wrapAsync } from "../utils/ExpressError.js";
 import { IsLoggedIn, IsOwner } from "../utils/middlewares.js";
-import { IndexListings, NewListing, ShowListing, EditListingPage, UpdateListing, DeleteListing} from "../controllers/listingController.js";
+import { IndexListings, NewListing, ShowListing, EditListingPage, UpdateListing, DeleteListing} from "../controllers/listingsController.js";
 
 const router = express.Router();
 
