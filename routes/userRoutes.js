@@ -1,7 +1,7 @@
 import passport from "passport";
 import User from "../models/user.js";
 import express from "express";
-import {setRedirectUrl} from "../middlewares.js";
+import {setRedirectUrl} from "../utils/middlewares.js";
 
 const router = express.Router();
 

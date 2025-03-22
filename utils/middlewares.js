@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
-import { Listing } from './models/listing.js';
+import { Listing } from '../models/listing.js';
+import { reviewSchemaJoi } from '../schema.js';
 
 
 export const IsLoggedIn = (req, res, next) => {
@@ -27,3 +28,13 @@ export const IsOwner = async (req, res, next) => {
   }
   next();
 }
+
+
+
+export const validateReview = async (req,res,next) =>{
+  let {error} = reviewSchemaJoi.validate(req.body);
+  if(error){ 
+    throw new ExpressError(400, "Please fill review form !");
+  }
+    next();
+  }

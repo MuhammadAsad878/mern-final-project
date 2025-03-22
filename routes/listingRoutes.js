@@ -2,7 +2,7 @@ import express from "express";
 import { ExpressError, wrapAsync } from "../ExpressError.js";
 import { listingSchemaJoi } from "../schema.js";
 import { Listing } from "../models/listing.js";
-import {IsLoggedIn, IsOwner} from "../middlewares.js";
+import {IsLoggedIn, IsOwner} from "../utils/middlewares.js";
 import mongoose from "mongoose";
 
 const router = express.Router();
@@ -82,7 +82,6 @@ router.put(
     const { id } = req.params;
     await listingSchemaJoi.validateAsync(req.body);
     const { listing } = req.body;
-    
     await Listing.findByIdAndUpdate(id, listing);
     res.redirect(`/listings/${id}`); // redirect to the updated listing page
   })

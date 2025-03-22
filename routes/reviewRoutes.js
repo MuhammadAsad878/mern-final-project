@@ -2,7 +2,7 @@ import express from "express";
 import { ExpressError, wrapAsync } from "../ExpressError.js";
 import Review from "../models/review.js";
 import { Listing } from "../models/listing.js";
-import { reviewSchemaJoi } from "../schema.js";
+import { validateReview } from "../utils/middlewares.js";
 const router = express.Router( { mergeParams:true } );
 
 
@@ -38,14 +38,6 @@ router.delete(
   })
 );
 
-async function validateReview(req,res,next){
-  let {error} = reviewSchemaJoi.validate(req.body);
-  if(error){ 
-    throw new ExpressError(400, "Please fill review form !");
-  }else{
-    next();
-  }
-  }
   
 
 export default router;
