@@ -70,7 +70,7 @@
           <div class="row">
             <div class="col-8">
               <div class="card-title">
-                <span><b> <%= review._id %> </b></span> &nbsp;&nbsp;&nbsp;&nbsp;
+                <span><b> <%= review.author %> </b></span> &nbsp;&nbsp;&nbsp;&nbsp;
                 <span><%= review.rating %>⭐ </span>
               </div>
               <div class="card-text"><%= review.comment %></div>
@@ -96,6 +96,7 @@
     </div>
     </div>
     <!-- Reviews Form -->
+     <% if(currUser) {%>
     <div class="col-6">
       <h3>Write a review</h3>
       <form
@@ -132,6 +133,7 @@
       </div>
       </form>
     </div>
+    <% } %>
   </div>
 </div>
 
