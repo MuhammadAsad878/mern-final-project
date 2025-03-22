@@ -1,6 +1,7 @@
 import passport from "passport";
 import User from "../models/user.js";
 import express from "express";
+import Middleware from "../utils/middlewares.js";
 
 const router = express.Router();
 
@@ -17,8 +18,7 @@ router.post("/signup", async (req, res) => {
       if (err) return next(err);
       req.flash("success", "Welcome to AirBnb!");
       res.redirect("/listings");
-    }
-  );
+    });
   } catch (err) {
     req.flash("error", err.message);
     res.redirect("/auth/signup");
@@ -31,19 +31,21 @@ router.get("/login", (req, res) => {
 
 router.post(
   "/login",
+  Middleware.setRedirectUrl,
   passport.authenticate("local", {
     failureFlash: true,
     failureRedirect: "/auth/login",
   }),
   (req, res) => {
     req.flash("success", "Welcome back!");
-    res.redirect("/listings");
+    res.redirect(res.locals.redirectUrl || "/listings");
   }
 );
 
 router.get("/logout", (req, res, next) => {
   req.logout((err) => {
     if (err) return next(err);
+    res.locals = null;
     req.flash("success", "Logged out successfully");
     res.redirect("/listings");
   });

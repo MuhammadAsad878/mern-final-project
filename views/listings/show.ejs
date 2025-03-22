@@ -6,7 +6,7 @@
   ></span>
 
   <div class="row col-8 offset-2">
-    <h3><%= listing.title %></h3>
+    <h3><%= listing.title %> <span class="username"> <%= listing.owner.username  %></span></h3>
     <div class="card mb-3">
       <img
         src="<%= listing.image %>"
@@ -54,6 +54,7 @@
  <div class="row  fluid p-0 m-0"  id="reviews">
   <h5>Customer Reviews</h5>
   <p>Total Reviews ( <%= listing.reviews.length %> )</p>
+
     <div class="row col-8 offset-2 px-1 py-3">
     <div class="col-6  ps-4">
       <!-- Reviews list -->
@@ -64,14 +65,14 @@
           <div class="row">
             <div class="col-8">
               <div class="card-title">
-                <span><b>Unknown User </b></span> &nbsp;&nbsp;&nbsp;&nbsp;
+                <span><b> <%= review._id %> </b></span> &nbsp;&nbsp;&nbsp;&nbsp;
                 <span><%= review.rating %>⭐ </span>
               </div>
               <div class="card-text"><%= review.comment %></div>
             </div>
             <div class="col-4 d-flex justify-content-center align-items-center">
               <form
-                action="/listings/<%= listing.id %>/reviews/<%= review._id %>?_method=DELETE"
+                action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
                 method="post"
               >
                 <button class="btn btn-outline-secondary">Delete</button>
@@ -93,7 +94,7 @@
     <div class="col-6">
       <h3>Write a review</h3>
       <form
-        action="/listings/<%= listing.id %>/reviews"
+        action="/listings/<%= listing._id %>/reviews"
         method="post"
         novalidate
         class="needs-validation"

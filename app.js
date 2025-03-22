@@ -56,17 +56,21 @@ app.use((req, res, next) => {
   res.locals.errorMsg = req.flash('error');
   res.locals.successMsg = req.flash('success');
   res.locals.currUser = req.user;
+  console.log(req.user);
   next();
 });
 
-
+let count = 0;
+app.use((req,res,next)=>{
+console.log(count++);
+next();
+})
 
 // Routes
 app.get('/favicon.ico', (req, res) => res.status(204).end());
 app.use(['/listings','/'], listingRoutes);
 app.use('/listings/:id/reviews', reviewRoutes);
 app.use('/auth', userRoutes);
-
 
 // Error Handling Middleware
 app.use((err, req, res, next) => {

@@ -2,8 +2,8 @@ import express from "express";
 import { ExpressError, wrapAsync } from "../ExpressError.js";
 import { listingSchemaJoi } from "../schema.js";
 import { Listing } from "../models/listing.js";
-import flash from 'connect-flash';
-import { IsLoggedIn } from "../middlewares.js";
+import Middleware from "../utils/middlewares.js";
+import mongoose from "mongoose";
 
 const router = express.Router();
 //  Index Route to show all listings
@@ -18,7 +18,7 @@ router.get(
 
 // GET Route to get a form for New listing
 router.get("/new",
-  IsLoggedIn,
+  Middleware.IsLoggedIn,
   (req, res) => {
   res.render("listings/new.ejs");
 });
@@ -26,15 +26,15 @@ router.get("/new",
 // POST Route to Create a New Listing
 router.post(
   "/",
-  IsLoggedIn,
+  Middleware.IsLoggedIn,
   wrapAsync(async (req, res) => {
     try {
       // Validate the request body
       await listingSchemaJoi.validateAsync(req.body);
-
       // Proceed if validation is successful
       const { listing } = req.body;
       const newListing = new Listing(listing);
+      newListing.owner = req.user._id;
       await newListing.save();
       req.flash("success","Listing added successfully");
       res.redirect("/listings");
@@ -50,7 +50,14 @@ router.get(
   "/:id",
   wrapAsync(async (req, res) => {
     const { id } = req.params;
-    const listing = await Listing.findById(id).populate("reviews");
+     // Validate if ID is a valid MongoDB ObjectId  
+     if (!mongoose.Types.ObjectId.isValid(id)) {
+      req.flash("error", "Invalid listing ID!");
+      return res.redirect("/listings"); // Redirect to a safe page
+    }
+
+    const listing = await Listing.findById(id).populate("reviews").populate("owner").lean();
+    console.log(listing);
     res.render("listings/show.ejs", { listing });
   })
 );
@@ -58,7 +65,7 @@ router.get(
 // Edit Route to edit listing
 router.get(
   "/:id/edit",
-  IsLoggedIn,
+  Middleware.IsLoggedIn,
   wrapAsync(async (req, res) => {
     const { id } = req.params;
     const listing = await Listing.findById(id);
@@ -69,11 +76,11 @@ router.get(
 // PUT route to update listing
 router.put(
   "/:id",
-  IsLoggedIn,
+  Middleware.IsLoggedIn,
   wrapAsync(async (req, res) => {
     const { id } = req.params;
     const { listing } = req.body;
-    const update = await Listing.findByIdAndUpdate(id, listing);
+    await Listing.findByIdAndUpdate(id, listing);
     res.redirect(`/listings/${id}`); // redirect to the updated listing page
   })
 );
@@ -81,16 +88,13 @@ router.put(
 // Delete Route to delete specific listing
 router.delete(
   "/:id",
-  IsLoggedIn,
+  Middleware.IsLoggedIn,
   wrapAsync(async (req, res) => {
     const { id } = req.params;
     if(!id) throw new ExpressError(400, "Error from client side"); 
-    let yes = confirm("Are you sure you want to delete this listing? Type 'yes' to confirm");
-    if(yes){
-      await Listing.findByIdAndDelete(id);
-    }
+    let listing =  await Listing.findByIdAndDelete(id);
+    req.flash("success",listing.title,  " Deleted successfully")
     res.redirect("/listings");
-
   })
 );
 

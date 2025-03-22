@@ -25,7 +25,12 @@ const listingSchema = new Schema({
       ref: "Review",
     },
   ],
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
 });
+
 // Listing reviews delete post middleware
 listingSchema.post(
   "findOneAndDelete",
