@@ -2,7 +2,7 @@ import express from "express";
 import { ExpressError, wrapAsync } from "../ExpressError.js";
 import { listingSchemaJoi } from "../schema.js";
 import { Listing } from "../models/listing.js";
-import Middleware from "../utils/middlewares.js";
+import {IsLoggedIn, IsOwner} from "../middlewares.js";
 import mongoose from "mongoose";
 
 const router = express.Router();
@@ -18,7 +18,7 @@ router.get(
 
 // GET Route to get a form for New listing
 router.get("/new",
-  Middleware.IsLoggedIn,
+ IsLoggedIn,
   (req, res) => {
   res.render("listings/new.ejs");
 });
@@ -26,7 +26,7 @@ router.get("/new",
 // POST Route to Create a New Listing
 router.post(
   "/",
-  Middleware.IsLoggedIn,
+  IsLoggedIn,
   wrapAsync(async (req, res) => {
     try {
       // Validate the request body
@@ -39,7 +39,6 @@ router.post(
       req.flash("success","Listing added successfully");
       res.redirect("/listings");
     } catch (error) {
-      console.log(error.details);
       throw new ExpressError(400, error.details[0].message);
     }
   })
@@ -57,15 +56,16 @@ router.get(
     }
 
     const listing = await Listing.findById(id).populate("reviews").populate("owner").lean();
-    console.log(listing);
     res.render("listings/show.ejs", { listing });
   })
 );
 
+
 // Edit Route to edit listing
 router.get(
   "/:id/edit",
-  Middleware.IsLoggedIn,
+ IsLoggedIn,
+ IsOwner,
   wrapAsync(async (req, res) => {
     const { id } = req.params;
     const listing = await Listing.findById(id);
@@ -76,10 +76,13 @@ router.get(
 // PUT route to update listing
 router.put(
   "/:id",
-  Middleware.IsLoggedIn,
+ IsLoggedIn,
+ IsOwner,
   wrapAsync(async (req, res) => {
     const { id } = req.params;
+    await listingSchemaJoi.validateAsync(req.body);
     const { listing } = req.body;
+    
     await Listing.findByIdAndUpdate(id, listing);
     res.redirect(`/listings/${id}`); // redirect to the updated listing page
   })
@@ -88,7 +91,7 @@ router.put(
 // Delete Route to delete specific listing
 router.delete(
   "/:id",
-  Middleware.IsLoggedIn,
+  IsLoggedIn,
   wrapAsync(async (req, res) => {
     const { id } = req.params;
     if(!id) throw new ExpressError(400, "Error from client side"); 

@@ -1,7 +1,7 @@
 import passport from "passport";
 import User from "../models/user.js";
 import express from "express";
-import Middleware from "../utils/middlewares.js";
+import {setRedirectUrl} from "../middlewares.js";
 
 const router = express.Router();
 
@@ -31,7 +31,7 @@ router.get("/login", (req, res) => {
 
 router.post(
   "/login",
-  Middleware.setRedirectUrl,
+setRedirectUrl,
   passport.authenticate("local", {
     failureFlash: true,
     failureRedirect: "/auth/login",

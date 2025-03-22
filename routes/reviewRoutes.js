@@ -20,9 +20,7 @@ router.post(
     listing.reviews.push(newReview);
     await listing.save();
     await newReview.save();
-    console.log("Listing is ",listing);
 
-    // res.redirect(`/listings/${listing._id}`);
     res.redirect(`/listings/${listing._id}#reviews`);
   })
 );

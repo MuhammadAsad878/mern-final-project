@@ -34,6 +34,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // app.use(morgan('combined', {stream: { write: (message) => logger.info(message.trim()),},}));
 
 
+// Session Middleware
 app.use(
   session({
     secret: 'yoursecretkey',
@@ -46,25 +47,23 @@ app.use(
   })
 );
 
+// Passport , Flash & Session Middleware
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());  // store credentials in session
 passport.deserializeUser(User.deserializeUser()); // remove credentials from session
+
+// Middleware to pass flash messages & current user to all routes
 app.use((req, res, next) => {
   res.locals.errorMsg = req.flash('error');
   res.locals.successMsg = req.flash('success');
   res.locals.currUser = req.user;
-  console.log(req.user);
   next();
 });
 
-let count = 0;
-app.use((req,res,next)=>{
-console.log(count++);
-next();
-})
+
 
 // Routes
 app.get('/favicon.ico', (req, res) => res.status(204).end());
@@ -75,8 +74,6 @@ app.use('/auth', userRoutes);
 // Error Handling Middleware
 app.use((err, req, res, next) => {
   console.log('-------ERROR-------');
-  console.log(err);
-  const { status = 500, message = 'Some Error Occurred!' } = err;
   res.render('listings/error.ejs', { err });
 });
 

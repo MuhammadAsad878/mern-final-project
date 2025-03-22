@@ -7,6 +7,7 @@ const sampleListings = [
 
     price: 1500,
     location: "Malibu",
+    owner: "67dea40e85f5976cfcbbcab5",
     country: "United States",
   },
   {
@@ -18,6 +19,7 @@ const sampleListings = [
     price: 1200,
     location: "New York City",
     country: "United States",
+    owner: "67dea40e85f5976cfcbbcab5",
   },
   {
     title: "Mountain Retreat",
@@ -28,6 +30,8 @@ const sampleListings = [
     price: 1000,
     location: "Aspen",
     country: "United States",
+    owner: "67dea40e85f5976cfcbbcab5",
+
   },
   {
     title: "Historic Villa in Tuscany",
@@ -37,6 +41,7 @@ const sampleListings = [
    
     price: 2500,
     location: "Florence",
+    owner: "67dea40e85f5976cfcbbcab5",
     country: "Italy",
   },
   {
@@ -47,6 +52,7 @@ const sampleListings = [
 
     price: 800,
     location: "Portland",
+    owner: "67dea40e85f5976cfcbbcab5",
     country: "United States",
   },
   {
@@ -57,6 +63,7 @@ const sampleListings = [
   
     price: 2000,
     location: "Cancun",
+    owner: "67dea40e85f5976cfcbbcab5",
     country: "Mexico",
   },
   {
@@ -67,6 +74,7 @@ const sampleListings = [
 
     price: 900,
     location: "Lake Tahoe",
+    owner: "67dea40e85f5976cfcbbcab5",
     country: "United States",
   },
   {
@@ -77,6 +85,7 @@ const sampleListings = [
  
     price: 3500,
     location: "Los Angeles",
+    owner: "67dea40e85f5976cfcbbcab5",
     country: "United States",
   },
   {
@@ -87,6 +96,7 @@ const sampleListings = [
 
     price: 3000,
     location: "Verbier",
+    owner: "67dea40e85f5976cfcbbcab5",
     country: "Switzerland",
   },
   {
@@ -96,6 +106,7 @@ const sampleListings = [
     image: "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjl8fG1vdW50YWlufGVufDB8fDB8fHww&auto=format&fit=crop&w=800&q=60",
 
     price: 4000,
+    owner: "67dea40e85f5976cfcbbcab5",
     location: "Serengeti National Park",
     country: "Tanzania",
   },
@@ -108,6 +119,7 @@ const sampleListings = [
     price: 1800,
     location: "Amsterdam",
     country: "Netherlands",
+    owner: "67dea2f938da7c953f2ca032",
   },
   {
     title: "Private Island Retreat",
@@ -116,6 +128,7 @@ const sampleListings = [
     image: "https://images.unsplash.com/photo-1618140052121-39fc6db33972?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8bG9kZ2V8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60",
 
     price: 10000,
+    owner: "67dea2f938da7c953f2ca032",
     location: "Fiji",
     country: "Fiji",
   },
@@ -126,6 +139,7 @@ const sampleListings = [
     image:  "https://images.unsplash.com/photo-1602088113235-229c19758e9f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8YmVhY2glMjB2YWNhdGlvbnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60",
    
     price: 1200,
+    owner: "67dea2f938da7c953f2ca032",
     location: "Cotswolds",
     country: "United Kingdom",
   },
@@ -136,6 +150,7 @@ const sampleListings = [
     image: "https://images.unsplash.com/photo-1533619239233-6280475a633a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHNreSUyMHZhY2F0aW9ufGVufDB8fDB8fHww&auto=format&fit=crop&w=800&q=60",
 
     price: 2200,
+    owner: "67dea2f938da7c953f2ca032",
     location: "Boston",
     country: "United States",
   },
@@ -147,6 +162,7 @@ const sampleListings = [
  
     price: 1800,
     location: "Bali",
+    owner: "67dea2f938da7c953f2ca032",
     country: "Indonesia",
   },
   {
@@ -156,6 +172,7 @@ const sampleListings = [
     image: "https://images.unsplash.com/photo-1521401830884-6c03c1c87ebb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGxvZGdlfGVufDB8fDB8fHww&auto=format&fit=crop&w=800&q=60",
 
     price: 1500,
+    owner: "67dea2f938da7c953f2ca032",
     location: "Banff",
     country: "Canada",
   },
@@ -167,6 +184,7 @@ const sampleListings = [
 
     price: 1600,
     location: "Miami",
+    owner: "67dea2f938da7c953f2ca032",
     country: "United States",
   },
   {
@@ -176,6 +194,7 @@ const sampleListings = [
     image: "https://images.unsplash.com/photo-1470165301023-58dab8118cc9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fGxvZGdlfGVufDB8fDB8fHww&auto=format&fit=crop&w=800&q=60",
 
     price: 3000,
+    owner: "67dea2f938da7c953f2ca032",
     location: "Phuket",
     country: "Thailand",
   },
@@ -187,6 +206,7 @@ const sampleListings = [
   
     price: 4000,
     location: "Scottish Highlands",
+    owner: "67dea2f938da7c953f2ca032",
     country: "United Kingdom",
   },
   {
@@ -196,6 +216,7 @@ const sampleListings = [
     image:  "https://images.unsplash.com/photo-1518684079-3c830dcef090?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZHViYWl8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60",
     price: 5000,
     location: "Dubai",
+    owner: "67dea2f938da7c953f2ca032",
     country: "United Arab Emirates",
   },
   {
@@ -206,6 +227,7 @@ const sampleListings = [
 
     price: 1100,
     location: "Montana",
+    owner: "67dea2f938da7c953f2ca032",
     country: "United States",
   },
   {
@@ -216,6 +238,7 @@ const sampleListings = [
 
     price: 2500,
     location: "Mykonos",
+    owner: "67dea2f938da7c953f2ca032",
     country: "Greece",
   },
   {
@@ -226,6 +249,7 @@ const sampleListings = [
 
     price: 750,
     location: "Costa Rica",
+    owner: "67dea2f938da7c953f2ca032",
     country: "Costa Rica",
   },
   {
@@ -235,6 +259,7 @@ const sampleListings = [
     image:  "https://images.unsplash.com/photo-1587381420270-3e1a5b9e6904?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGxvZGdlfGVufDB8fDB8fHww&auto=format&fit=crop&w=800&q=60",
     price: 1600,
     location: "Charleston",
+    owner: "67dea2f938da7c953f2ca032",
     country: "United States",
   },
   {
@@ -244,6 +269,7 @@ const sampleListings = [
     image:  "https://images.unsplash.com/photo-1480796927426-f609979314bd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fHRva3lvfGVufDB8fDB8fHww&auto=format&fit=crop&w=800&q=60",
 
     price: 2000,
+    owner: "67dea2f938da7c953f2ca032",
     location: "Tokyo",
     country: "Japan",
   },
@@ -253,6 +279,7 @@ const sampleListings = [
       "Spend your days by the lake in this cozy cabin in the scenic White Mountains of New Hampshire.",
     image: "https://images.unsplash.com/photo-1578645510447-e20b4311e3ce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDF8fGNhbXBpbmd8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60",
 
+    owner: "67dea2f938da7c953f2ca032",
     price: 1200,
     location: "New Hampshire",
     country: "United States",
@@ -265,6 +292,7 @@ const sampleListings = [
 
     price: 6000,
     location: "Maldives",
+    owner: "67dea2f938da7c953f2ca032",
     country: "Maldives",
   },
   {
@@ -276,12 +304,14 @@ const sampleListings = [
     price: 4000,
     location: "Aspen",
     country: "United States",
+    owner: "67dea2f938da7c953f2ca032",
   },
   {
     title: "Secluded Beach House in Costa Rica",
     description:
       "Escape to a secluded beach house on the Pacific coast of Costa Rica. Surf, relax, and unwind.",
     image: "https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YmVhY2glMjBob3VzZXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60",
+    owner: "67dea2f938da7c953f2ca032",
 
     price: 1800,
     location: "Costa Rica",

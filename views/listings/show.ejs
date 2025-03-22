@@ -30,6 +30,9 @@
       </div>
     </div>
     <div class="row col-6">
+    
+
+      <% if(currUser && currUser._id.equals(listing.owner._id)){ %>
       <div class="col-6 col-sm-12">
         <a
           href="/listings/<%= listing._id %>/edit"
@@ -47,14 +50,16 @@
           <button class="btn btn-secondary">Delete this listing</button>
         </form>
       </div>
+<% }%> 
+
     </div>
   </div>
 <br><br><br>
 <!-- Reviews Section -->
  <div class="row  fluid p-0 m-0"  id="reviews">
   <h5>Customer Reviews</h5>
-  <p>Total Reviews ( <%= listing.reviews.length %> )</p>
-
+  <p>Total Reviews ( 0)</p>
+ 
     <div class="row col-8 offset-2 px-1 py-3">
     <div class="col-6  ps-4">
       <!-- Reviews list -->
