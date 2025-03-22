@@ -2,32 +2,18 @@ import passport from "passport";
 import User from "../models/user.js";
 import express from "express";
 import {setRedirectUrl} from "../utils/middlewares.js";
+import { Login, Logout, RenderLoginForm, RenderSignUpForm, SignUp } from "../controllers/usersController.js";
 
 const router = express.Router();
 
-router.get("/signup", (req, res) => {
-  res.render("user/signup.ejs");
-});
+// GET /auth/signup Form
+router.get("/signup",RenderSignUpForm);
 
-router.post("/signup", async (req, res) => {
-  try {
-    let { email, username, password } = req.body;
-    let user = new User({ email, username });
-    const regUser = await User.register(user, password);
-    req.login(regUser, (err) => {
-      if (err) return next(err);
-      req.flash("success", "Welcome to AirBnb!");
-      res.redirect("/listings");
-    });
-  } catch (err) {
-    req.flash("error", err.message);
-    res.redirect("/auth/signup");
-  }
-});
+// POST /auth/signup
+router.post("/signup", SignUp);
 
-router.get("/login", (req, res) => {
-  res.render("user/login.ejs");
-});
+// GET /auth/login Form
+router.get("/login", RenderLoginForm);
 
 router.post(
   "/login",
@@ -36,19 +22,9 @@ setRedirectUrl,
     failureFlash: true,
     failureRedirect: "/auth/login",
   }),
-  (req, res) => {
-    req.flash("success", "Welcome back!");
-    res.redirect(res.locals.redirectUrl || "/listings");
-  }
+ Login
 );
 
-router.get("/logout", (req, res, next) => {
-  req.logout((err) => {
-    if (err) return next(err);
-    res.locals = null;
-    req.flash("success", "Logged out successfully");
-    res.redirect("/listings");
-  });
-});
+router.get("/logout",Logout);
 
 export default router;
