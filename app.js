@@ -5,12 +5,16 @@ import methodOverride from 'method-override';
 import listingRoutes from './routes/listingRoutes.js';
 import { fileURLToPath } from 'url';
 import ejsMate from 'ejs-mate';
-import { ExpressError } from './ExpressError.js';
 import reviewRoutes from './routes/reviewRoutes.js';
 import logger from './logger.js';
 import morgan from 'morgan';
 import session from 'express-session';
 import flash from 'connect-flash';
+import userRoutes from './routes/userRoutes.js';
+import passport from 'passport';
+import User from './models/user.js';
+import LocalStrategy from 'passport-local';
+
 
 const app = express();
 const port = 3000;
@@ -27,13 +31,8 @@ app.use(methodOverride('_method'));
 app.engine('ejs', ejsMate);
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(
-  morgan('combined', {
-    stream: {
-      write: (message) => logger.info(message.trim()),
-    },
-  })
-);
+// app.use(morgan('combined', {stream: { write: (message) => logger.info(message.trim()),},}));
+
 
 app.use(
   session({
@@ -48,21 +47,26 @@ app.use(
 );
 
 app.use(flash());
-
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());  // store credentials in session
+passport.deserializeUser(User.deserializeUser()); // remove credentials from session
 app.use((req, res, next) => {
   res.locals.errorMsg = req.flash('error');
   res.locals.successMsg = req.flash('success');
+  res.locals.currUser = req.user;
   next();
 });
 
-app.use((req, res, next) => {
-  console.log('Request received:', req.method, req.url);
-  next();
-});
+
 
 // Routes
-app.use('/listings', listingRoutes);
+app.get('/favicon.ico', (req, res) => res.status(204).end());
+app.use(['/listings','/'], listingRoutes);
 app.use('/listings/:id/reviews', reviewRoutes);
+app.use('/auth', userRoutes);
+
 
 // Error Handling Middleware
 app.use((err, req, res, next) => {

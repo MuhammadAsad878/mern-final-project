@@ -3,6 +3,8 @@ import { ExpressError, wrapAsync } from "../ExpressError.js";
 import { listingSchemaJoi } from "../schema.js";
 import { Listing } from "../models/listing.js";
 import flash from 'connect-flash';
+import { IsLoggedIn } from "../middlewares.js";
+
 const router = express.Router();
 //  Index Route to show all listings
 router.get(
@@ -15,13 +17,16 @@ router.get(
 );
 
 // GET Route to get a form for New listing
-router.get("/new", (req, res) => {
+router.get("/new",
+  IsLoggedIn,
+  (req, res) => {
   res.render("listings/new.ejs");
 });
 
 // POST Route to Create a New Listing
 router.post(
   "/",
+  IsLoggedIn,
   wrapAsync(async (req, res) => {
     try {
       // Validate the request body
@@ -53,6 +58,7 @@ router.get(
 // Edit Route to edit listing
 router.get(
   "/:id/edit",
+  IsLoggedIn,
   wrapAsync(async (req, res) => {
     const { id } = req.params;
     const listing = await Listing.findById(id);
@@ -63,6 +69,7 @@ router.get(
 // PUT route to update listing
 router.put(
   "/:id",
+  IsLoggedIn,
   wrapAsync(async (req, res) => {
     const { id } = req.params;
     const { listing } = req.body;
@@ -74,11 +81,16 @@ router.put(
 // Delete Route to delete specific listing
 router.delete(
   "/:id",
+  IsLoggedIn,
   wrapAsync(async (req, res) => {
     const { id } = req.params;
     if(!id) throw new ExpressError(400, "Error from client side"); 
-    await Listing.findByIdAndDelete(id);
+    let yes = confirm("Are you sure you want to delete this listing? Type 'yes' to confirm");
+    if(yes){
+      await Listing.findByIdAndDelete(id);
+    }
     res.redirect("/listings");
+
   })
 );
 
