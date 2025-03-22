@@ -6,7 +6,7 @@
   ></span>
 
   <div class="row col-8 offset-2">
-    <h3><%= listing.title %> <span class="username"> <%= listing.owner.username  %></span></h3>
+    <h3><%= listing.title %> <span class="username">@ <%= listing.owner.username  %></span></h3>
     <div class="card mb-3">
       <img
         src="<%= listing.image %>"
@@ -70,18 +70,20 @@
           <div class="row">
             <div class="col-8">
               <div class="card-title">
-                <span><b> <%= review.author %> </b></span> &nbsp;&nbsp;&nbsp;&nbsp;
+                <span><b> @<%= review.author.username %> </b></span> &nbsp;&nbsp;&nbsp;&nbsp;
                 <span><%= review.rating %>⭐ </span>
               </div>
               <div class="card-text"><%= review.comment %></div>
             </div>
             <div class="col-4 d-flex justify-content-center align-items-center">
+              <% if(currUser && currUser._id.equals(review.author._id)){ %>
               <form
                 action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
                 method="post"
               >
                 <button class="btn btn-outline-secondary">Delete</button>
               </form>
+              <% } %>
             </div>
           </div>
         </div>

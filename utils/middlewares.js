@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import { Listing } from '../models/listing.js';
 import { reviewSchemaJoi } from '../schema.js';
+import Review from '../models/review.js';
 
 
 export const IsLoggedIn = (req, res, next) => {
@@ -29,6 +30,15 @@ export const IsOwner = async (req, res, next) => {
   next();
 }
 
+export const IsAuthor = async( req,res,next ) => {
+  const { reviewId } = req.params;
+  const review = await Review.findById(reviewId);
+  if (!review.author._id.equals(req.user._id)) {
+    req.flash('error', 'You are not the author of this review!');
+    return res.redirect(`/listings/${id}`);
+  }
+  next();
+}
 
 
 export const validateReview = async (req,res,next) =>{

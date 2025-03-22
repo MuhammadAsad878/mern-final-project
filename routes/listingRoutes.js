@@ -55,7 +55,13 @@ router.get(
       return res.redirect("/listings"); // Redirect to a safe page
     }
 
-    const listing = await Listing.findById(id).populate("reviews").populate("owner").lean();
+    const listing = await Listing.findById(id).populate({
+      path: "reviews",
+      populate: {
+        path: "author",
+      },
+    }).populate("owner").lean();
+    console.log(listing);
     res.render("listings/show.ejs", { listing });
   })
 );

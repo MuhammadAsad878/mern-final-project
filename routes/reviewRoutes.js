@@ -2,7 +2,7 @@ import express from "express";
 import { ExpressError, wrapAsync } from "../ExpressError.js";
 import Review from "../models/review.js";
 import { Listing } from "../models/listing.js";
-import { validateReview, IsLoggedIn } from "../utils/middlewares.js";
+import { validateReview, IsLoggedIn, IsAuthor } from "../utils/middlewares.js";
 const router = express.Router( { mergeParams:true } );
 
 
@@ -21,7 +21,6 @@ router.post(
     listing.reviews.push(newReview);
     await listing.save();
     await newReview.save();
-    console.log(listing);
     res.redirect(`/listings/${listing._id}#reviews`);
   })
 );
@@ -30,6 +29,7 @@ router.post(
 // Delete Review Route
 router.delete(
   "/:reviewId",
+  IsAuthor,
   IsLoggedIn,
   wrapAsync(async (req, res) => {
     let { id, reviewId } = req.params;
