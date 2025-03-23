@@ -16,7 +16,6 @@ router.get("/new", IsLoggedIn, (req, res) => {
   res.render("listings/new.ejs");
 });
 
-
 // "/:id" Routes for GET, PUT, DELETE specific listing
 router.route("/:id")
   .get(wrapAsync(ShowListing))
@@ -31,8 +30,6 @@ router.get(
   IsOwner,
   wrapAsync(EditListingPage)
 );
-
-
 
 
 export default router;
