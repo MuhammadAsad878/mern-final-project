@@ -5,25 +5,48 @@ import { Login, Logout, RenderLoginForm, RenderSignUpForm, SignUp } from "../con
 
 const router = express.Router();
 
-// GET /auth/signup Form
-router.get("/signup",RenderSignUpForm);
+// GET /auth/signup Form and POST /auth/signup  SIGNUP
+router.route("/signup")
+.get(RenderSignUpForm)
+.post(SignUp);
 
-// POST /auth/signup
-router.post("/signup", SignUp);
 
-// GET /auth/login Form
-router.get("/login", RenderLoginForm);
-
-router.post(
-  "/login",
-setRedirectUrl,
+// GET /auth/login Form and POST /auth/login  LOGIN
+router.route("/login")
+.get(RenderLoginForm)
+.post(
+  setRedirectUrl,
   passport.authenticate("local", {
     failureFlash: true,
     failureRedirect: "/auth/login",
   }),
- Login
-);
+  Login
+)
 
+// GET /auth/logout LOGOUT
 router.get("/logout",Logout);
 
 export default router;
+
+
+
+
+// router.get("/signup",RenderSignUpForm);
+
+// // POST /auth/signup
+// router.post("/signup", SignUp);
+
+// // GET /auth/login Form
+// router.get("/login", RenderLoginForm);
+
+// router.post(
+//   "/login",
+// setRedirectUrl,
+//   passport.authenticate("local", {
+//     failureFlash: true,
+//     failureRedirect: "/auth/login",
+//   }),
+//  Login
+// );
+
+// router.get("/logout",Logout);
