@@ -1,5 +1,4 @@
 import passport from "passport";
-import User from "../models/user.js";
 import express from "express";
 import {setRedirectUrl} from "../utils/middlewares.js";
 import { Login, Logout, RenderLoginForm, RenderSignUpForm, SignUp } from "../controllers/usersController.js";

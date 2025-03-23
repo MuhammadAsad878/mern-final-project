@@ -1,4 +1,3 @@
-import mongoose from 'mongoose';
 import { Listing } from '../models/listing.js';
 import { reviewSchemaJoi } from '../schema.js';
 import Review from '../models/review.js';
