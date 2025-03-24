@@ -9,7 +9,7 @@
     <h3><%= listing.title %> <span class="username">@ <%= listing.owner.username  %></span></h3>
     <div class="card mb-3">
       <img
-        src="<%= listing.image %>"
+        src="<%= listing.image.url %>"
         class="card-img-top show-card-img"
         alt="..."
       />
@@ -69,9 +69,8 @@
         <div class="card-body">
           <div class="row">
             <div class="col-8">
-              <div class="card-title">
-                <span><b> @<%= review.author.username %> </b></span> &nbsp;&nbsp;&nbsp;&nbsp;
-                <span><%= review.rating %>⭐ </span>
+              <div class="card-titl pt-2 pb-2">
+                <span><b> @<%= review.author.username %> </b></span> &nbsp;&nbsp;&nbsp;&nbsp; <span  class="starability-result" data-rating="<%= review.rating %>" style="font-size: 1rem;"></span>
               </div>
               <div class="card-text"><%= review.comment %></div>
             </div>
@@ -108,7 +107,7 @@
       >
       <fieldset class="starability-basic">
         <legend>Write a review </legend>
-        <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="0" checked aria-label="No rating." />
+        <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked aria-label="No rating." />
         <input type="radio" id="first-rate1" name="review[rating]" value="1" />
         <label for="first-rate1" title="Terrible">1 star</label>
         <input type="radio" id="first-rate2" name="review[rating]" value="2" />

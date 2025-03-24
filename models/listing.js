@@ -11,10 +11,14 @@ const listingSchema = new Schema({
   },
   description: String,
   image: {
+    url: {
     type: String,
     default: defaultLink,
-    // we can also use set: (v) => condition ? true : false to set default link value if string is empty
     set: (v) => (v === "" ? defaultLink : v),
+    // we can also use set: (v) => condition ? true : false to set default link value if string is empty
+
+    },
+    filename: String,
   },
   price: Number,
   location: String,

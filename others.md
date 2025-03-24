@@ -109,3 +109,136 @@ router.route('/users/:user_id')
   })
 
 **Starability.css for Rating Syling**
+`https://github.com/LunarLogic/starability`
+It is little complex to directly write css or functionality from scratch to handle reviews styling so we simply use the above library or we say pre written code to style reviews or rating by simply copying css and then HTML to be inserted in our form 
+
+**Uploading Files / Images**
+
+For uploading files we have to 
+1. Configure our form to send data to backend
+2. Get & Save data in our local storage backend using multer
+3. Upload it on cloud & save or use that url to be saved in our DB.
+
+We cant simply save our files in bson format in MongoDB as file sizes are so large and not convenient to store file data. So,
+we change the HTML form enctype="multipart/form-data" and then use 
+
+Multer is a node.js middleware for handling multipart/form-data, which is primarily used for uploading files. It is written on top of busboy for maximum efficiency.
+
+NOTE: Multer will not process any form which is not multipart (multipart/form-data).
+
+Don't forget the enctype="multipart/form-data" in your form.
+
+<form action="/profile" method="post" enctype="multipart/form-data">
+  <input type="file" name="avatar" />
+</form>
+
+` npm i multer`
+const multer  = require('multer')
+const upload = multer({ dest: 'uploads/' })
+
+use like 
+.post('/listing', upload.single('listing[image]')), (req,res)=>{
+  res.send(req.body || req.file);
+});
+
+**Cloud Setup**
+Go to cloudinary for free tier cloud
+Set .env file with key value pairs without any space quotes like SECRET=mysecret
+To acces these variables from file in our project we use third party library `dotenv`
+Dotenv is a zero-dependency module that loads environment variables from a .env file into process.env. Storing configuration in the environment separate from code is based on The Twelve-Factor App methodology.
+# install locally (recommended)
+npm install dotenv --save
+
+import { configDotenv } from 'dotenv';  or require('dotenv').config()
+configDotenv();
+
+console.log(process.env.SECRET);
+
+1. WE only use .env file for development phase only not use in production so we can also write in our app.js like 
+
+if(process.env.NODE_ENV != "production"){
+  require('dotenv').config() OR import { configDotenv } from 'dotenv';
+  
+}
+
+We use our .env to store credentials of our cloud like 
+CLOUD_NAME
+API_KEY
+API_SECRET
+
+FOR MULTER STORE CLOUDINARY
+# `npm install cloudinary multer-storage-cloudinary` to interact with cloudinary & multer
+
+1. 1st Step is install cloudinary & multer-storage-cloudinary
+2. 2nd Step is import and configure cloud using .env
+3. 3rd Step is set storage for your cloud with folderName and allowedFormats: ["png","jpg","jpeg"]
+4. Get the req.file.path to save in mongodb url field
+
+Flow of data is like  form > backend > cloud > url > db
+
+# 1st & 2nd Step
+We create a separate cloudConfig.js file for this setup 
+
+like root/ cloudConfig.js
+import { CloudinaryStorage } from 'multer-storage-cloudinary';
+import { configDotenv } from 'dotenv';
+configDotenv();
+import pkg from 'cloudinary';
+const { v2: cloudinary } = pkg;
+
+// Configure Cloudinary  like connecting backend with cloudinary account
+(async function() {
+  // Configuration
+  cloudinary.config({ 
+      cloud_name: process.env.CLOUD_NAME, // Click 'View API Keys' above to copy your cloud name
+      api_key: process.env.CLOUD_API_KEY, // Click 'View API Keys' above to copy your API key
+      api_secret: process.env.CLOUD_API_SECRET // Click 'View API Keys' above to copy your API secret
+  });   
+})();
+
+// Configure Multer Storage with Cloudinary like making a folder in drive where we want to save the files
+const storage  = new CloudinaryStorage({
+  cloudinary: cloudinary,      // 
+  params: {
+    folder: 'homeEase', // The name of the folder in cloudinary
+    allowed_formats: ['jpeg', 'png', 'jpg'], // The allowed File formats
+  },
+});
+
+
+export { cloudinary, storage };
+
+// const upload = multer({ storage });
+
+// export { cloudinary, upload };
+
+# 3rd step is to get data from form and pass it to multer to save it to cloud
+
+const upload = multer({ storage });
+
+.post(upload.single('listing[image]'),(req,res) => {
+    console.log(req.body);
+    res.send(req.file);
+  });
+
+# For 4th step we have to modify our listing Schema and some other fields ....
+
+image: {
+  url : String,
+  filename: String,
+}
+
+then we will modify our controller for createListing
+
+    let url = req.file.path;
+    let filename = req.file.filename;
+
+    const newListing = new Listing(listing);
+    newListing.owner = req.user._id;
+    newListing.image = { url, filename };
+
+    await newListing.save();
+    
+This will get req.file.path & filename from image we uploaded using upload.single('listing[image]'), as a middleware before our controller
+
+We then initialize the init data.js then init.js to reinitialize the data 

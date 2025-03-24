@@ -14,8 +14,10 @@ import userRoutes from './routes/userRoutes.js';
 import passport from 'passport';
 import User from './models/user.js';
 import LocalStrategy from 'passport-local';
+import { configDotenv } from 'dotenv';
 
 
+// console.log(process.env);
 const app = express();
 const port = 3000;
 const __filename = fileURLToPath(import.meta.url);
@@ -30,8 +32,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.engine('ejs', ejsMate);
 app.use(express.static(path.join(__dirname, 'public')));
-
 // app.use(morgan('combined', {stream: { write: (message) => logger.info(message.trim()),},}));
+configDotenv();
 
 
 // Session Middleware

@@ -2,13 +2,21 @@ import express from "express";
 import { wrapAsync } from "../utils/ExpressError.js";
 import { IsLoggedIn, IsOwner } from "../utils/middlewares.js";
 import { IndexListings, NewListing, ShowListing, EditListingPage, UpdateListing, DeleteListing} from "../controllers/listingsController.js";
+import multer from "multer";
+import { storage } from "../cloudConfig.js";
 
+
+
+const upload = multer({ storage });
+
+// const upload = multer({ dest: 'uploads/' })
 const router = express.Router();
 
 //  Index Route GET & POST Listings
 router.route("/")
   .get(wrapAsync(IndexListings))
-  .post(IsLoggedIn, wrapAsync(NewListing));
+  .post(IsLoggedIn,upload.single('listing[image]'), wrapAsync(NewListing));
+  // .post(,(req,res) => {
 
 
 // GET Route render new listing form
