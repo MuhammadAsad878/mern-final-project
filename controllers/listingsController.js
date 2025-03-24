@@ -13,7 +13,7 @@ export async function NewListing(req, res) {
   try {
     let url = req.file.path;
     let filename = req.file.filename;
-    
+
     // Validate the request body
     await listingSchemaJoi.validateAsync(req.body);
     // Proceed if validation is successful
@@ -26,7 +26,7 @@ export async function NewListing(req, res) {
 
     await newListing.save();
     req.flash("success", "Listing added successfully");
-    res.redirect('/listings');
+    res.redirect("/listings");
   } catch (error) {
     throw new ExpressError(400, error);
   }
@@ -52,25 +52,34 @@ export async function ShowListing(req, res) {
   res.render("listings/show.ejs", { listing });
 }
 
-
-export async function EditListingPage (req, res) {
+export async function EditListingPage(req, res) {
   const { id } = req.params;
   const listing = await Listing.findById(id);
   res.render("listings/edit.ejs", { listing });
 }
 
-export async function UpdateListing (req, res){
-    const { id } = req.params;
-    await listingSchemaJoi.validateAsync(req.body);
-    const { listing } = req.body;
-    await Listing.findByIdAndUpdate(id, listing);
-    res.redirect(`/listings/${id}`); // redirect to the updated listing page
+export async function UpdateListing(req, res) {
+  let { id } = req.params;
+  if(req.body.listing === undefined) throw new ExpressError(400, "Invalid listing data");
+  let listing = await Listing.findByIdAndUpdate(id, req.body.listing);
+
+  if (typeof req.file !== "undefined") {
+    const url = String(req.file.path);
+    const filename = String(req.file.filename);
+    listing.image = { url, filename };
+    await listing.save();
   }
 
-  export async function DeleteListing  (req, res)  {
-    const { id } = req.params;
-    if (!id) throw new ExpressError(400, "Error from client side");
-    let listing = await Listing.findByIdAndDelete(id);
-    req.flash("success", listing.title, " Deleted successfully");
-    res.redirect("/listings");
-  }
+  await listingSchemaJoi.validateAsync(req.body);
+
+  req.flash("success", "Listing updated successfully");
+  res.redirect(`/listings/${id}`); // redirect to the updated listing page
+}
+
+export async function DeleteListing(req, res) {
+  const { id } = req.params;
+  if (!id) throw new ExpressError(400, "Error from client side");
+  let listing = await Listing.findByIdAndDelete(id);
+  req.flash("success", listing.title, " Deleted successfully");
+  res.redirect("/listings");
+}

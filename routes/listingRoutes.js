@@ -27,7 +27,11 @@ router.get("/new", IsLoggedIn, (req, res) => {
 // "/:id" Routes for GET, PUT, DELETE specific listing
 router.route("/:id")
   .get(wrapAsync(ShowListing))
-  .put(IsLoggedIn, IsOwner, wrapAsync(UpdateListing))
+  .put(
+    IsLoggedIn,
+    IsOwner,
+    upload.single('listing[image]'),
+    wrapAsync(UpdateListing))
   .delete(IsLoggedIn, wrapAsync(DeleteListing));
 
 

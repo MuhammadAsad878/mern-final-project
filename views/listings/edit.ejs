@@ -1,48 +1,66 @@
 <% layout('layouts/boilerplate.ejs') -%>
 
-  <body>
-    <span id="previous-btn" title="Previous Page"
-    ><i class="fa-solid fa-circle-left"></i
-  ></span>
-    <div class="row col-8 offset-2">
-      <h3>Edit your Listing</h3>`
-    <form method="POST" action="/listings/<%= listing._id %>?_method=PUT">
-      <div class="mb-3">
-        <label for="title" class="form-label">Title</label>
-      <input name="listing[title]" value="<%= listing.title %>" type="text" class="form-control" />
-      </div>
-      <div class="mb-3">
-        <label for="description" class="form-label">Description</label>
-      <textarea name="listing[description]" class="form-control"><%= listing.description %></textarea>
-    </div>
-    <div class="mb-3">
-      <label for="image" class="form-label">Image URL</label>
-      <input name="listing[image]" value="<%= listing.image %>" type="text" class="form-control"/>
-    </div>
-    <div class="mb-3">
-      <label for="price" class="form-label">Price</label>
-      <input name="listing[price]" value="<%= listing.price %>" type="number" class="form-control"/>
-    </div>
-    <div class="mb-3">
-      <label for="country" class="form-label">Country</label>
-      <input
-        name="listing[country]"
-        value="<%= listing.country %>"
-        type="text"
-        class="form-control"
-      />
-    </div>
-    <div class="mb-3">
-      <label for="location" class="form-label">Location</label>
-      <input
-        name="listing[location]"
-        value="<%= listing.location %>"
-        type="text"
-        class="form-control"
-      />
-    </div>
-      <button class="btn btn-dark edit-btn">Edit</button>
-    </form>
-  </div>
-  </body>
+<body>
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-6 col-md-8 col-sm-12">
+        <div class="card shadow-lg p-4">
+          <div class="card-body">
+            <h3 class="text-center mb-4">Edit Your Listing</h3>
+            <form method="POST" action="/listings/<%= listing._id %>?_method=PUT" enctype="multipart/form-data">
+              
+              <!-- Title -->
+              <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input name="listing[title]" value="<%= listing.title %>" type="text" class="form-control" required />
+              </div>
 
+              <!-- Description -->
+              <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea name="listing[description]" class="form-control" rows="4" required><%= listing.description %></textarea>
+              </div>
+
+              <!-- Current Image -->
+              <div class="mb-3 text-center">
+                <label class="form-label d-block">Current Image</label>
+                <img src="<%= listing.image.url %>" class="img-fluid rounded border" style="max-height: 200px;" />
+              </div>
+
+              <!-- Upload New Image -->
+              <div class="mb-3">
+                <label for="image" class="form-label">Upload New Image</label>
+                <input name="listing[image]" type="file" id="image" class="form-control" />
+              </div>
+
+              <!-- Price -->
+              <div class="mb-3">
+                <label for="price" class="form-label">Price</label>
+                <input name="listing[price]" value="<%= listing.price %>" type="number" class="form-control" required />
+              </div>
+
+              <!-- Country -->
+              <div class="mb-3">
+                <label for="country" class="form-label">Country</label>
+                <input name="listing[country]" value="<%= listing.country %>" type="text" class="form-control" required />
+              </div>
+
+              <!-- Location -->
+              <div class="mb-3">
+                <label for="location" class="form-label">Location</label>
+                <input name="listing[location]" value="<%= listing.location %>" type="text" class="form-control" required />
+              </div>
+
+              <!-- Buttons -->
+              <div class="d-flex justify-content-between">
+                <a href="/listings/<%= listing._id %>" class="btn btn-outline-secondary">Cancel</a>
+                <button class="btn btn-dark">Save Changes</button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
