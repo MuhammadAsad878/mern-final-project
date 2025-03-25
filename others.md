@@ -228,7 +228,7 @@ image: {
   filename: String,
 }
 
-then we will modify our controller for createListing
+# then we will modify our controller for createListing
 
     let url = req.file.path;
     let filename = req.file.filename;
@@ -240,5 +240,28 @@ then we will modify our controller for createListing
     await newListing.save();
     
 This will get req.file.path & filename from image we uploaded using upload.single('listing[image]'), as a middleware before our controller
-
 We then initialize the init data.js then init.js to reinitialize the data 
+# then we will modify our controller for UpdateListing
+
+ export async function UpdateListing(req, res) {
+  let { id } = req.params;
+  if(req.body.listing === undefined) throw new ExpressError(400, "Invalid listing data");
+  let listing = await Listing.findByIdAndUpdate(id, req.body.listing);
+
+  if (typeof req.file !== "undefined") {
+    const url = String(req.file.path);
+    const filename = String(req.file.filename);
+    listing.image = { url, filename };
+    await listing.save();
+  }
+
+  await listingSchemaJoi.validateAsync(req.body);
+
+  req.flash("success", "Listing updated successfully");
+  res.redirect(`/listings/${id}`); // redirect to the updated listing page
+}
+
+
+**Gettin Started with MAPS**
+
+We are using www.mapbox.com free api for location

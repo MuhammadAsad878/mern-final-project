@@ -126,3 +126,11 @@ color: rgba(255, 0, 0, 0.282);
   font-size: 1rem;
   font-style: italic;
 }
+
+
+/* Styleing for MAP */
+#map {
+   height: 350px;
+  width: 40vw;
+  background-color: beige;
+ }

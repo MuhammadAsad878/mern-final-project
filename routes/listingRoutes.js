@@ -24,7 +24,7 @@ router.get("/new", IsLoggedIn, (req, res) => {
   res.render("listings/new.ejs");
 });
 
-// "/:id" Routes for GET, PUT, DELETE specific listing
+// "/:id" Routes for GET, PUT, DELETE specific listing  Update, Delete
 router.route("/:id")
   .get(wrapAsync(ShowListing))
   .put(

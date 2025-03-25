@@ -23,7 +23,7 @@ const port = 3000;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-connectToDB().then(() => startApp());
+connectToDB().then(() => startApp()).catch((err) => console.log(err));
 
 // Middleware
 app.set('view engine', 'ejs');
@@ -79,7 +79,7 @@ app.use((err, req, res, next) => {
   res.render('listings/error.ejs', { err });
 });
 
-function startApp() {
+const startApp = ()=> {
   app.listen(port, () => {
     console.log(`Server started on http://localhost:${port}/`);
   });
