@@ -1,7 +1,19 @@
 import { Listing } from "../models/listing.js";
 import { listingSchemaJoi } from "../schema.js";
 import { ExpressError } from "../utils/ExpressError.js";
+import mbxGeocoding from '@mapbox/mapbox-sdk/services/geocoding.js'
 import mongoose from "mongoose";
+import { configDotenv } from "dotenv";
+
+
+
+configDotenv();
+const mapAccessToken = process.env.MAP_ACCESS_TOKEN;
+
+
+const mbxGeoClient = mbxGeocoding({ accessToken: mapAccessToken });
+
+console.log("listingController.js > ", mapAccessToken);
 
 export async function IndexListings(req, res) {
   const listings = await Listing.find({}).lean(); // lean reduce mem-usage by => palain JS object inst of mong obj
@@ -10,26 +22,40 @@ export async function IndexListings(req, res) {
 }
 
 export async function NewListing(req, res) {
-  try {
+
+  let location = req.body.listing.location;
+  let resData = await mbxGeoClient
+    .forwardGeocode({
+      query: location,
+      limit: 1, // limit sets how much related values objects come in response  
+    })
+    .send();
+
+  console.log(resData.body.features[0]);
+  console.log(resData.body.features[0].geometry.coordinates);
+
+
+
+  // Validate the request body
+  await listingSchemaJoi.validateAsync(req.body);
+  // Proceed if validation is successful
+  const { listing } = req.body;
+  if (!listing) throw new ExpressError(400, "Invalid listing data");
+
+  const newListing = new Listing(listing);
+  newListing.owner = req.user._id;
+  if(req.file){
     let url = req.file.path;
     let filename = req.file.filename;
-
-    // Validate the request body
-    await listingSchemaJoi.validateAsync(req.body);
-    // Proceed if validation is successful
-    const { listing } = req.body;
-    if (!listing) throw new ExpressError(400, "Invalid listing data");
-
-    const newListing = new Listing(listing);
-    newListing.owner = req.user._id;
-    newListing.image = { url, filename };
-
-    await newListing.save();
-    req.flash("success", "Listing added successfully");
-    res.redirect("/listings");
-  } catch (error) {
-    throw new ExpressError(400, error);
+  newListing.image = { url, filename };
   }
+  newListing.geometry = resData.body.features[0].geometry;
+
+  let saveListing = await newListing.save();
+  console.log(saveListing); 
+  req.flash("success", "Listing added successfully");
+  res.redirect("/listings");
+
 }
 
 export async function ShowListing(req, res) {
@@ -60,7 +86,7 @@ export async function EditListingPage(req, res) {
 
 export async function UpdateListing(req, res) {
   let { id } = req.params;
-  if(req.body.listing === undefined) throw new ExpressError(400, "Invalid listing data");
+  if (req.body.listing === undefined) throw new ExpressError(400, "Invalid listing data");
   let listing = await Listing.findByIdAndUpdate(id, req.body.listing);
 
   if (typeof req.file !== "undefined") {

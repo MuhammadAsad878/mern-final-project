@@ -265,3 +265,54 @@ We then initialize the init data.js then init.js to reinitialize the data
 **Gettin Started with MAPS**
 
 We are using www.mapbox.com free api for location
+
+1. Signup on MapBox and fetch your public token
+2. Set public token in .env
+3. Now configure your mapbox to show data in your show.ejs to ensure it is working
+4. We are using first script to access process.env.MAP_ACCESS_TOKEN and store it in a variables
+5. Now use <div id="map"></div> in show.ejs to show the map and also style it accordingly
+5. We create a new mapConfig.js file and add the js code to get the map info or rendering data
+6. Now test the functionality
+
+# Geocoding & Saving of Coordinates in MongoDB
+https://github.com/mapbox/mapbox-sdk-js/tree/main
+
+Geocoding is the process of converting addresses ( like a street address ) into geographic coordinates like (latitude, longitude), which you can use to place marks on maps or position the map.
+
+1. New Listing > controllers > listingsController.js
+
+import mbxGeocoding from '@mapbox/mapbox-sdk/services/geocoding.js'
+export async function NewListing(req, res) {
+
+  let location = req.body.listing.location;
+  let data = await mbxGeoClient
+    .forwardGeocode({
+      query: location,
+      limit: 1, // limit sets how much related values objects come in response  
+    })
+    .send();
+
+  console.log(data.body.features[0]);
+  console.log(data.body.features[0].geometry.coordinates);
+
+2. Store coordinates in MongoDB
+mongoose contain special type geoJson to store coordinates
+so we change our schema for lsiting by adding following fields then passing resData to that listing.geometry to save in mongodb
+
+geometry: {
+    type: {
+      type: String, // Don't do `{ location: { type: String } }`
+      enum: ['Point'], // 'location.type' must be 'Point'
+      required: true
+    },
+    coordinates: {
+      type: [Number],
+      required: true
+    }
+  }
+
+  newListing.geometry = resData.body.features[0].geometry;
+
+# Now displaying map according to relevant listing coordinates but first do Map Marker whiich show your locaiton pin point 🗺
+
+1. Go to Map Marker in mapbox/docs to integrate map marker like locaiton icon 
