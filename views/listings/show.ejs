@@ -2,6 +2,9 @@
 
 <script>
   const mapAccessToken = "<%= String(process.env.MAP_ACCESS_TOKEN) %>";
+  const listingData = <%- JSON.stringify(listing) %>;
+  console.log(listingData);
+
 </script>
 
 <body>
@@ -98,9 +101,13 @@
     </div>
   </div>
 
-  <div class="col-6 offset-3 mb-3">
-    <p>Location</p>
-    <div id="map"></div>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6 col-10 text-center">
+        <P>location</P>
+        <div id="map"></div>
+      </div>
+    </div>
   </div>
 
   <script src="/JS/mapConfig.js"></script>

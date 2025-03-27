@@ -315,4 +315,19 @@ geometry: {
 
 # Now displaying map according to relevant listing coordinates but first do Map Marker whiich show your locaiton pin point 🗺
 
-1. Go to Map Marker in mapbox/docs to integrate map marker like locaiton icon 
+1. Go to Map Marker in mapbox/docs to integrate map marker like locaiton icon  
+to access our coordinates from ejs we first save it in our ejs using script like
+<script>
+  const coordinates = <%- JSON.stringify(listing.geometry.coordinates);
+</script>
+then we can access it in our 
+mapConfig.js
+console.log(coordinates);
+
+or also set center: coordinates in mapboxgl.Map
+
+ // Create a default Marker and add it to the map.
+    const marker1 = new mapboxgl.Marker()
+        <!-- .setLngLat([12.554729, 55.70651]) -->
+        .setLngLat(coordinates)
+        .addTo(map);
