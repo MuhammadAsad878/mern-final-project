@@ -331,3 +331,197 @@ or also set center: coordinates in mapboxgl.Map
         <!-- .setLngLat([12.554729, 55.70651]) -->
         .setLngLat(coordinates)
         .addTo(map);
+
+mapbox-gl/api/marker to set marker styling 
+
+# Marker Popup
+
+.setPopup(
+  new mapboxgl.Popup({ offset: 15, closeButton: false, className: "custom-popup" })
+    .setHTML(`
+      <div class="popup-container">
+        <h3 class="popup-title">${lctn}</h3>
+        <p class="popup-text">📍 Exact location provided after booking</p>
+       
+      </div>
+    `)
+)
+
+# Fixing little home page 
+
+# Add UI for filters
+
+index.ejs
+
+<style>
+  #filters{
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .filter{
+    text-align: center;
+    margin right: 2rem;
+    margin-=tp: 2rem
+    opacity: 0.7;
+
+  }
+  .filter:hover{
+    opacity: 1;
+    cursor: pointer;
+
+  }
+  .filter p{
+    font-size: 1rem;
+  }
+
+  </style>
+
+  div id="filers"
+    div class="filter" 
+      div icon div
+      p trending p
+    div
+      div icon div
+      p rooms p
+    div
+      div icon div
+      p iconic cities p
+    div
+      div icon div
+      p mountains p
+    div
+    div
+      div icon div
+      p castles p
+    div
+    div
+      div icon div
+      p Camping p
+    div
+     div
+      div icon div
+      p Arctic p
+    div
+     div
+      div icon div
+      p Dome p
+    div
+     div
+      div icon div
+      p Boats etc p
+    div
+  div
+    
+we can also make category in  our listing model like
+category: {
+  type: String,
+  enum: ["mountains","rooms", "farms", "pool"] 
+}
+now we make a request to check which filter is triggered and then show that category listings on index page
+
+# Add tax switch UI, toggle button style, & switch functionality
+bootstrap > checks & radios > switches 
+  </style>
+  .tax-info{
+    display:none;
+  }
+
+  .tax-toggle{
+     
+  }
+
+st
+index.js
+
+
+<div class="">
+<div class="form-check-reverse form-switch">
+  <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+  <label class="form-check-label" for="flexSwitchCheckDefault">Default switch checkbox input</label>
+</div>
+
+we can add event-listner for this switch element to implement tax-switch functionality also we can add an element to show tax like\
+
+<p class="tax-info" >
++ 18 GST
+</p>
+<script>
+
+  let taxSwitch = document.getElementById("flexSwitchCheckDefault");
+  taxSwitch.addEventListner("Click", ()=> {
+    let taxInfo = document.getElementByClassName("tax-info");
+    console.log(taxInfo);
+    for(info of taxInfo){
+      if(info.style.display !== "inline" ){
+      info.style.display = "inline"
+      }
+    }
+    console.log("Clicked");
+  })
+</script>
+
+
+# Add UI for Search
+
+navbar.ejs
+make search button, input and style
+  move search in center of navbar
+
+
+
+# HOST & DEPLOYMENT of Mongo Service on Atlas
+
+1. Deploy a multi-cloud database using Mongo Atlas a Cloud Database services
+
+Images deployed on Cloudinary
+Database Deployed on https://mongodb.com/cloud/atlas/register
+
+> Signup
+> Create User with password and store it for personal use
+> Add enteries to your IP Access List to tell what devices are using this servies for changes now we add local machine ip by default added
+then if our project get hosted then we have to add online ip we add later
+> After adding IP Access list configuration on setting up access rules
+> connect your local projec to online db service 
+> copy your connection string from there and modify it by entering your credentials 
+> set your conString in .env and then pass it in app.js using process.env.VariableName  to connect to db
+
+# Mongo Session Store
+connect-mongo
+
+const store = MongoStore.create({
+  mongoUrl: DB_URL,
+  crypto: {
+    secret: process.env.SECRET;
+  },
+  touchAfter: 24 * 3600, // for lazy update 
+})
+
+# Deploymnet on Render create a new Service
+
+first add 
+"engines" : {
+  "node" : "node-version",
+}
+in package.json to set our default engine to run app on server
+
+then remove all credentials from code and move them to .env 
+
+Signup on render 
+add .gitignore file in our project and add
+node_modules/
+.env 
+to ignore in our repository 
+push code on github 
+
+now go on render create a web service by using that repo by connecting your github account with render then add infor 
+
+build command = npm install
+run command = node app.js 
+etc 
+
+# Environment Variables & Configure Atlas 
+for IP Access Addition and environment variables
+in our render service > envi > envVariables then add variables 
+
+for ip copy ips from render > web service connect 
+then go to atlas > network acces > add new IP addresses 

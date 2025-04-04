@@ -13,7 +13,6 @@ const mapAccessToken = process.env.MAP_ACCESS_TOKEN;
 
 const mbxGeoClient = mbxGeocoding({ accessToken: mapAccessToken });
 
-console.log("listingController.js > ", mapAccessToken);
 
 export async function IndexListings(req, res) {
   const listings = await Listing.find({}).lean(); // lean reduce mem-usage by => palain JS object inst of mong obj
