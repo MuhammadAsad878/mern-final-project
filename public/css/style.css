@@ -85,14 +85,14 @@ object-fit:  cover !important;
 
 /* Add Page new.ejs */
 .add-btn{
-  background-color: red;
+  background-color: #1d5e66;
   border: none ;
 }
 
 /* Edit Page Edit.ejs */
 
 .edit-btn{
-  background-color: red;
+  background-color: #1d5e66;
   border: none;
 }
 

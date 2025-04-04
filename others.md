@@ -486,7 +486,7 @@ then if our project get hosted then we have to add online ip we add later
 > set your conString in .env and then pass it in app.js using process.env.VariableName  to connect to db
 
 # Mongo Session Store
-connect-mongo
+npm install connect-mongo
 
 const store = MongoStore.create({
   mongoUrl: DB_URL,
@@ -525,3 +525,5 @@ in our render service > envi > envVariables then add variables
 
 for ip copy ips from render > web service connect 
 then go to atlas > network acces > add new IP addresses 
+
+manual deploy > cahec redeploy etc 

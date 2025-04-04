@@ -1,0 +1,150 @@
+<%- layout('layouts/boilerplate.ejs') %>
+
+<section class="about-us mt-5">
+  <div class="container">
+    <!-- Page Title -->
+    <div class="row text-center justify-content-center">
+      <div class="col-12">
+        <h1 class="display-4">About HomeEase</h1>
+        <p class="lead text-muted">Your trusted platform for finding the perfect hostel stays.</p>
+      </div>
+    </div>
+
+    <!-- What is HomeEase Section -->
+    <div class="row mt-5 justify-content-center">
+      <div class="col-md-6 px-4 text-center">
+        <h3>What is HomeEase?</h3>
+        <p>
+          HomeEase is a hostel listing platform that connects travelers with affordable and comfortable stays worldwide. Whether you're a student, a solo traveler, or on a business trip, find hostels that fit your needs and budget.
+        </p>
+        <p>
+          Much like Airbnb, HomeEase allows property owners to list their hostels, offering travelers a variety of choices and a seamless booking experience.
+        </p>
+      </div>
+      <div class="col-md-6">
+        <img src="https://res.cloudinary.com/dnp18a8pv/image/upload/v1743802357/asdfsadf_xb5wok.png" alt="Hostel Image" class="img-fluid rounded shadow-sm" style="max-height: 300px; object-fit: cover;">
+      </div>
+    </div>
+
+    <!-- Mission Section -->
+    <div class="row mt-4 justify-content-center">
+      <div class="col-12 px-4 text-center">
+        <h3>Our Mission</h3>
+        <p>
+          We believe everyone deserves clean, safe, and affordable accommodations. Our mission is to help travelers find the perfect place to stay and foster a community of explorers.
+        </p>
+      </div>
+    </div>
+
+    <!-- Why Choose Us Section -->
+    <div class="row mt-4 text-center justify-content-center">
+      <div class="col-12 px-4">
+        <h3>Why Choose HomeEase?</h3>
+      </div>
+      <div class="col-md-4">
+        <p><i class="fas fa-dollar-sign"></i> Affordable</p>
+      </div>
+      <div class="col-md-4">
+        <p><i class="fas fa-check-circle"></i> Verified Listings</p>
+      </div>
+      <div class="col-md-4">
+        <p><i class="fas fa-globe"></i> Global Reach</p>
+      </div>
+    </div>
+
+    <!-- Call to Action Section -->
+    <div class="row mt-5 text-center justify-content-center">
+      <div class="col-12 px-4">
+        <h3>Join the HomeEase Community</h3>
+        <p>
+          Sign up today and start exploring the best hostels around the world!
+        </p>
+        <a href="/login" class="btn btn-primary">Get Started</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-us {
+    background-color: #f9f9f9;
+    padding: 40px 0;
+    border-radius: 8px;
+  }
+
+  .about-us h1 {
+    color: #1d5e66;
+    font-size: 2.2rem;
+    font-weight: bold;
+  }
+
+  .about-us h3 {
+    color: #1d5e66;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+  }
+
+  .about-us p {
+    color: #666;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .about-us img {
+    max-width: 100%;
+    border-radius: 8px;
+  }
+
+  .about-us i {
+    font-size: 1.75rem;
+    color: #1d5e66;
+  }
+
+  .about-us .btn-primary {
+    background-color: #1d5e66;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+  }
+
+  .about-us .btn-primary:hover {
+    background-color: #164c53;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 767px) {
+    .about-us h1 {
+      font-size: 1.8rem;
+    }
+
+    .about-us h3 {
+      font-size: 1.3rem;
+    }
+
+    .about-us p {
+      font-size: 0.95rem;
+    }
+
+    .about-us .col-md-6,
+    .about-us .col-md-4 {
+      text-align: center;
+    }
+
+    .about-us .row.mt-4 {
+      flex-direction: column;
+    }
+  }
+
+  /* Center all rows within the container */
+  .about-us .row.justify-content-center {
+    justify-content: center;
+  }
+
+  /* Optional: Add padding to ensure even spacing on smaller devices */
+  @media (max-width: 576px) {
+    .about-us .px-4 {
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+  }
+</style>

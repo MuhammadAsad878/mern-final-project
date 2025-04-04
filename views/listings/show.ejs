@@ -3,8 +3,6 @@
 <script>
   const mapAccessToken = "<%= String(process.env.MAP_ACCESS_TOKEN) %>";
   const listingData = <%- JSON.stringify(listing) %>;
-  console.log(listingData);
-
 </script>
 
 <body>
@@ -28,18 +26,18 @@
         <% if(currUser && currUser._id.equals(listing.owner._id)){ %>
         <div class="row g-2">
           <div class="col-md-6">
-            <a href="/listings/<%= listing._id %>/edit" class="btn btn-danger w-100">Edit this Listing</a>
+            <a href="/listings/<%= listing._id %>/edit" class="btn btn-primary  w-100" style="background-color: #1d5e66;">Edit this Listing</a>
           </div>
           <div class="col-md-6">
             <form method="POST" action="/listings/<%=listing._id%>?_method=DELETE">
-              <button class="btn btn-secondary w-100">Delete this listing</button>
+              <button class="btn btn-secondary w-100" style="background-color: #d4d8db;">Delete this listing</button>
             </form>
           </div>
         </div>
         <% } %>
       </div>
     </div>
-    
+
     <!-- Reviews Section -->
     <div class="row mt-5" id="reviews">
       <div class="col-12 text-center">
@@ -111,4 +109,5 @@
   </div>
 
   <script src="/JS/mapConfig.js"></script>
+
 </body>

@@ -6,15 +6,17 @@ import listingRoutes from './routes/listingRoutes.js';
 import { fileURLToPath } from 'url';
 import ejsMate from 'ejs-mate';
 import reviewRoutes from './routes/reviewRoutes.js';
-import logger from './logger.js';
-import morgan from 'morgan';
+// import logger from './logger.js';
+// import morgan from 'morgan';
 import session from 'express-session';
+import MongoStore from 'connect-mongo';
 import flash from 'connect-flash';
 import userRoutes from './routes/userRoutes.js';
 import passport from 'passport';
 import User from './models/user.js';
 import LocalStrategy from 'passport-local';
-import { configDotenv } from 'dotenv';
+import dotenv from "dotenv";
+dotenv.config();
 
 
 // console.log(process.env);
@@ -22,6 +24,7 @@ const app = express();
 const port = 3000;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
 
 connectToDB().then(() => startApp()).catch((err) => console.log(err));
 
@@ -33,13 +36,24 @@ app.use(methodOverride('_method'));
 app.engine('ejs', ejsMate);
 app.use(express.static(path.join(__dirname, 'public')));
 // app.use(morgan('combined', {stream: { write: (message) => logger.info(message.trim()),},}));
-configDotenv();
 
+// MongoDB Store for Session
+const store = MongoStore.create({
+  mongoUrl: process.env.MONGO_ATLAS_URL,
+  crypto: {
+    secret: process.env.SECRET,
+  },
+  touchAfter: 24 * 3600, // for lazy update 
+})
+.on('error', (err) => {
+  console.log('Session Store Error:', err); 
+});
 
 // Session Middleware
 app.use(
   session({
-    secret: 'yoursecretkey',
+    store: store, // MongoDB Store for Session
+    secret: process.env.SECRET, // Secret for session encryption
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -48,6 +62,7 @@ app.use(
     },
   })
 );
+
 
 // Passport , Flash & Session Middleware
 app.use(flash());
@@ -69,6 +84,9 @@ app.use((req, res, next) => {
 
 // Routes
 app.get('/favicon.ico', (req, res) => res.status(204).end());
+app.get('/about-us', (req, res) => {
+  res.render('includes/aboutUs.ejs'); 
+});
 app.use(['/listings','/'], listingRoutes);
 app.use('/listings/:id/reviews', reviewRoutes);
 app.use('/auth', userRoutes);
