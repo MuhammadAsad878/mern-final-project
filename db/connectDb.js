@@ -6,11 +6,7 @@ const MONGO_URL = process.env.MONGO_ATLAS_URL;
 
 async function connectToDB() {
   try{
-    await  mongoose.connect(MONGO_URL, {
-      ssl: false,
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await  mongoose.connect(MONGO_URL);
     console.log("Connection successfull with database");
 
   }catch(err){
