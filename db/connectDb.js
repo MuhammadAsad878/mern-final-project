@@ -8,6 +8,8 @@ async function connectToDB() {
   try{
     await  mongoose.connect(MONGO_URL, {
       ssl: false,
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
     });
     console.log("Connection successfull with database");
 
